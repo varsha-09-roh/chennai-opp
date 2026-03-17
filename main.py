@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
@@ -13,6 +14,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ─── Serve HTML pages ───────────────────────────────────────────
+@app.get("/privacy-policy.html")
+def privacy_policy():
+    return FileResponse("privacy-policy.html", media_type="text/html")
+
+@app.get("/app.html")
+def serve_app():
+    return FileResponse("app.html", media_type="text/html")
 
 # ─── Data Models ───────────────────────────────────────────────
 class Opportunity(BaseModel):
